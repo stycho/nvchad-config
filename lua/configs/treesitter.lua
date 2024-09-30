@@ -1,15 +1,17 @@
 local options = {
     ensure_installed = {
         "bash",
-        "fish",
+        -- "fish",
         "lua",
         "luadoc",
+        "python",
         "markdown",
         "printf",
         "toml",
         "vim",
         "vimdoc",
         "yaml",
+        "sql",
     },
 
     highlight = {
@@ -21,4 +23,3 @@ local options = {
 }
 
 require("nvim-treesitter.configs").setup(options)
-
