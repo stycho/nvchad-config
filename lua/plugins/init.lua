@@ -22,6 +22,12 @@ return {
             require("configs.mason-lspconfig")
         end,
     },
+    -- {
+    --     "nvimtools/none-ls.nvim",
+    --     config = function()
+    --         require("config.none-ls")
+    --     end
+    -- },
     {
         "stevearc/conform.nvim",
         event = "BufWritePre",
