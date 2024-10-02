@@ -10,10 +10,11 @@ lspconfig.servers = {
     "html",
     "cssls",
     "basedpyright",
+    "jsonls",
 }
 
 -- list of servers configured with default config.
-local default_servers = { "html", "cssls" }
+local default_servers = { "html", "cssls", "jsonls" }
 
 -- lsps with default config
 for _, lsp in ipairs(default_servers) do
