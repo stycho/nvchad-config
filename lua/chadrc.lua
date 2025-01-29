@@ -28,7 +28,7 @@ local vscDarkYellow = "#FFD602"
 local vscPink = "#C586C0"
 
 M.base46 = {
-    theme = "veeess",
+    theme = "tokyonight",
 }
 
 M.ui = {}

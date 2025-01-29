@@ -11,6 +11,8 @@ lspconfig.servers = {
     "cssls",
     "basedpyright",
     "jsonls",
+    "pico8_ls",
+    "glsl_analyzer",
 }
 
 -- list of servers configured with default config.
@@ -25,7 +27,7 @@ for _, lsp in ipairs(default_servers) do
     })
 end
 
-require("lspconfig").basedpyright.setup({
+lspconfig.basedpyright.setup({
     on_attach = on_attach,
     on_init = on_init,
     capabilities = capabilities,
@@ -51,7 +53,58 @@ require("lspconfig").basedpyright.setup({
     },
 })
 
---
+lspconfig.lua_ls.setup({
+    on_attach = on_attach,
+    on_init = on_init,
+    capabilities = capabilities,
+
+    settings = {
+        Lua = {
+            runtime = { version = "LuaJIT" },
+            library = {
+                vim.fn.stdpath("config") .. "/opt/homebrew/bin/love", -- Path to love-emmy
+            },
+            diagnostics = {
+                -- enable = false, -- Disable all diagnostics from lua_ls
+                globals = {
+                    "love",
+                    -- "vim"
+                },
+                disable = { "duplicate-set-field" },
+            },
+            workspace = {
+                library = {
+                    vim.fn.expand("$VIMRUNTIME/lua"),
+                    vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
+                    vim.fn.stdpath("data") .. "/lazy/ui/nvchad_types",
+                    vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy",
+                    "${3rd}/love2d/library",
+                    -- "${3rd}/love2d/library",
+                },
+                maxPreload = 100000,
+                preloadFileSize = 10000,
+            },
+        },
+    },
+})
+
+lspconfig.glsl_analyzer.setup({
+    on_attach = on_attach,
+    on_init = on_init,
+    capabilities = capabilities,
+
+    filetypes = { "glsl", "frag", "vert" }, -- Explicitly mention frag filetype
+    root_dir = require("lspconfig.util").root_pattern(".git", vim.fn.getcwd()),
+})
+
+-- lspconfig.pico8_ls.setup({
+--     on_attach = on_attach,
+--     on_init = on_init,
+--     capabilities = capabilities,
+--     cmd = { "pico8-ls", "--stdio" },
+--     filetypes = { "p8" },
+-- })
+
 -- require("lspconfig").basedpyright.setup({
 --     on_attach = on_attach,
 --     on_init = on_init,
