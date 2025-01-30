@@ -41,16 +41,24 @@ harpoon:setup()
 
 vim.keymap.set("n", "<leader>a", function()
     harpoon:list():add()
-end)
+end, { desc = "Harpoon - add" })
 vim.keymap.set("n", "<C-e>", function()
     harpoon.ui:toggle_quick_menu(harpoon:list())
-end)
+end, { desc = "Harpoon - quick menu" })
 --
--- vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
--- vim.keymap.set("n", "<C-t>", function() harpoon:list():select(2) end)
--- vim.keymap.set("n", "<C-n>", function() harpoon:list():select(3) end)
--- vim.keymap.set("n", "<C-s>", function() harpoon:list():select(4) end)
---
+vim.keymap.set("n", "<Leader>jj", function()
+    harpoon:list():select(1)
+end, { desc = "Harpoon - mark 1" })
+vim.keymap.set("n", "<Leader>jk", function()
+    harpoon:list():select(2)
+end, { desc = "Harpoon - mark 2" })
+vim.keymap.set("n", "<Leader>jl", function()
+    harpoon:list():select(3)
+end, { desc = "Harpoon - mark 3" })
+vim.keymap.set("n", "<Leader>j;", function()
+    harpoon:list():select(4)
+end, { desc = "Harpoon - mark 4" })
+
 -- -- Toggle previous & next buffers stored within Harpoon list
 -- vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
 -- vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
@@ -60,21 +68,15 @@ vim.schedule(function()
     require("mappings")
 end)
 
--- vim.api.nvim_create_autocmd({ "BufNew", "BufEnter" }, {
---     pattern = { "*.p8" },
---     callback = function(args)
---         vim.lsp.start({
---             name = "pico8-ls",
---             cmd = { "pico8-ls", "--stdio" },
---             root_dir = vim.fs.dirname(vim.api.nvim_buf_get_name(args.buf)),
---             -- Setup your keybinds in the on_attach function
---             on_attach = on_attach,
---         })
---     end,
--- })
-
 -- USER COMMANDS
--- vim.api.nvim_create_user_command("Love", "!love .", {})
 vim.api.nvim_create_user_command("Love", function()
     vim.fn.jobstart("love .", { detach = true })
 end, {})
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+    desc = "Highlight when yanking text",
+    group = vim.api.nvim_create_augroup("user-highlight-yank", { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+})
