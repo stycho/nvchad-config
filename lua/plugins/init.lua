@@ -1,7 +1,14 @@
 return {
     {
         "nvim-treesitter/nvim-treesitter",
-        event = { "BufNewFile", "BufNewFile" },
+        event = { "BufNewFile", "BufReadPost" },
+        cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+        build = ":TSUpdate",
+        dependencies = {
+            {
+                "nvim-treesitter/nvim-treesitter-textobjects",
+            },
+        },
         config = function()
             require("configs.treesitter")
         end,

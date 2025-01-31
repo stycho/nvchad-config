@@ -1,3 +1,8 @@
+pcall(function()
+    dofile(vim.g.base46_cache .. "syntax")
+    dofile(vim.g.base46_cache .. "treesitter")
+end)
+
 local options = {
     ensure_installed = {
         "bash",
@@ -22,6 +27,20 @@ local options = {
     },
 
     indent = { enable = true },
+
+    -- nvim-treesitter-textobjects
+    textobjects = {
+        select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+                -- You can use the capture groups defined in textobjects.scm
+                ["af"] = "@function.outer",
+                ["if"] = "@function.inner",
+                ["ac"] = "@class.outer",
+            },
+        },
+    },
 }
 
 require("nvim-treesitter.configs").setup(options)
